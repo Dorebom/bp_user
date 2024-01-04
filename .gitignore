@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+bp_system/*
+build/*
