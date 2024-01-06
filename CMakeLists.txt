@@ -11,9 +11,8 @@ set(CMAKE_EXE_LINKER_FLAGS "-fuse-ld=gold") # Update the linker version
 find_package(Threads)
 
 # インクルードパスを追加
-#include_directories(_extra)
 include_directories(bp_system/_extra/nlohmann)
-#include_directories(_extra/msgpack-c)
+
 include_directories(bp_system/example_node)
 include_directories(bp_system/bp_system)
 include_directories(bp_system)
@@ -29,6 +28,7 @@ add_executable(${CMAKE_PROJECT_NAME}
     bp_system/bp_system/b_system/b_node.cpp
     bp_system/example_node/node/b_simple_node_a.cpp
     bp_system/example_node/node/b_simple_node_b.cpp
+    user_node/node/basic_joycon_node.cpp
 )
 
 if(WIN32)

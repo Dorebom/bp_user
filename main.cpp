@@ -6,6 +6,7 @@
 
 #include "example_node/node/b_simple_node_a.hpp"
 #include "example_node/node/b_simple_node_b.hpp"
+#include "user_node/node/basic_joycon_node.hpp"
 
 int main()
 {
@@ -20,18 +21,24 @@ int main()
     b_simple_node_a node_a;
     b_simple_node_b node_b;
 
+    BasicJoyconNode joycon_node;
+
     hub_.store_node(node_a, "b_simple_node_a");
     hub_.store_node(node_b, "b_simple_node_b");
 
+    hub_.store_node(joycon_node, "basic_joycon_node");
+
     hub_.show_stored_node();
 
-    hub_.exec_node("b_simple_node_a", "b_simple_node_a.json", "../bp_system/example_node/config/");
+    //hub_.exec_node("b_simple_node_a", "b_simple_node_a.json", "../bp_system/example_node/config/");
+
+    hub_.exec_node("basic_joycon_node", "basic_joycon_node.json", "../user_node/config/");
 
     //b_hub_.exec_node(behavior_node_list::EXAMPLE_PUB_CONTROL, behavior_node_list::HUB);
 
     while(1)
     {
-        std::this_thread::sleep_for(std::chrono::seconds(3));
+        std::this_thread::sleep_for(std::chrono::seconds(30));
         hub_.ChangeStable();
         std::this_thread::sleep_for(std::chrono::seconds(3));
         hub_.End();
