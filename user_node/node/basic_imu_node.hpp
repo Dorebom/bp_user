@@ -7,9 +7,9 @@
 // List
 #include "b_system/b_hub_cmd/b_hub_cmd_list.hpp"
 
-#include "../data_struct/state/st_joycon_state.hpp"
+#include "../data_struct/state/st_imu_state.hpp"
 
-class BasicJoyconNode : public b_node
+class BasicImuNode : public b_node
 {
 private:
     /* node_state loop process */
@@ -47,21 +47,18 @@ private:
     //void cmd_executor();
 
     /* user data */
-    st_joycon_state* joycon_state_;
-    int joy_fd;
-    int num_of_axis;
-    int num_of_buttons;
-    char name_of_joystick[80];
-    std::vector<char> joy_button;
-    std::vector<int> joy_axis;
+    st_imu_state* imu_state_;
+    bool is_display_state_;
 
     /* user function */
     void get_state();
     void display_state();
+    void user_cmd_executor();
+    void set_param(st_imu_param_cmd param);
 public:
-    BasicJoyconNode(/* args */);
-    ~BasicJoyconNode();
+    BasicImuNode(/* args */);
+    ~BasicImuNode();
     std::shared_ptr<b_node> Clone() const override{
-        return std::make_shared<BasicJoyconNode>(*this);
+        return std::make_shared<BasicImuNode>(*this);
     }
 };  // class simple_node_a
