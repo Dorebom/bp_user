@@ -1,5 +1,7 @@
 #include "basic_imu_node.hpp"
 
+#include <chrono>
+
 #include "../data_struct/cmd/st_imu_cmd.hpp"
 
 BasicImuNode::BasicImuNode(/* args */)
@@ -47,10 +49,31 @@ void BasicImuNode::_end_processing()
 /* node_state change process */
 // -> initialize
 bool BasicImuNode::_any_to_initialize_processing() {
+
+    serial_manager_.openPort();
+
+    send2imu_data_.cmd_gein = gein;
+    send2imu_data_.cmd_periodic_time = periodic_time;
+    send2imu_data_.cmd_type = 2;
+    send2imu_data_.timestamp =  std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    send2imu_data_.crc_result = 0;
+
+    serial_manager_.send((uint8_t*)&send2imu_data_, sizeof(st_send2imu_data));
+
     return true;
 }
 // -> ready (reset process)
-bool BasicImuNode::_any_to_ready_processing() {return true;} // stable, repair and ready
+bool BasicImuNode::_any_to_ready_processing() {
+
+    print_log("BasicImuNode Ready");
+    send2imu_data_.cmd_type = 3;
+    send2imu_data_.timestamp =  std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    send2imu_data_.crc_result = 0;
+
+    serial_manager_.send((uint8_t*)&send2imu_data_, sizeof(st_send2imu_data));
+
+    return true;
+} // stable, repair and ready
 // -> force stop
 bool BasicImuNode::_any_to_force_stop_processing() {return true;} // stable, repair and ready
 // -> normal flow
@@ -69,6 +92,11 @@ bool BasicImuNode::_stable_to_repair_processing_after(){return true;}
 
 void BasicImuNode::_set_config(nlohmann::json json_data)
 {
+    baudRate = json_data.at("baudRate");
+    portName = json_data.at("portName");
+
+    periodic_time = json_data.at("periodic_time");
+    gein = json_data.at("gein");
 }
 
 void BasicImuNode::_configure()
@@ -78,6 +106,11 @@ void BasicImuNode::_configure()
     node_sys_cmd_ = std::make_shared<node_cmd>(node_config_.cmd_stack_size);
     imu_state_ = (st_imu_state*)node_state_->data;
     print_log("BasicImuNode Configure");
+
+    print_log("port name: " + portName);
+    print_log("baud rate: " + std::to_string(baudRate));
+    serial_manager_.setPortName(portName.c_str());
+    serial_manager_.setBaudRate(baudRate);
 }
 
 void BasicImuNode::_set_state()

@@ -8,5 +8,9 @@
     "print_log" : true,
     "use_udp_communication" : false,
     "requirement_node_list" : {
-    }
+    },
+    "portName" : "/dev/ttyACM0",
+    "baudRate" : 115200,
+    "periodic_time" : 50,
+    "gein" : 10.0
 }

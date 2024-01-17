@@ -8,6 +8,20 @@
 #include "b_system/b_hub_cmd/b_hub_cmd_list.hpp"
 
 #include "../data_struct/state/st_imu_state.hpp"
+#include "../data_struct/cmd/st_imu_cmd.hpp"
+
+#include "../common/comm/Serial/SerialManager.hpp"
+
+struct st_send2imu_data
+{
+    /* data */
+    double timestamp;
+    int cmd_type;
+    int cmd_periodic_time;  // msec
+    float cmd_gein;
+    int cmd_data_mode;
+    uint32_t crc_result;
+};
 
 class BasicImuNode : public b_node
 {
@@ -49,6 +63,12 @@ private:
     /* user data */
     st_imu_state* imu_state_;
     bool is_display_state_;
+    SerialManager serial_manager_;
+    std::string portName;
+    unsigned int baudRate;
+    unsigned int periodic_time;
+    float gein;
+    st_send2imu_data send2imu_data_;
 
     /* user function */
     void get_state();
