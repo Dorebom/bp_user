@@ -28,7 +28,9 @@ add_executable(${CMAKE_PROJECT_NAME}
     bp_system/bp_system/b_system/b_node.cpp
     bp_system/example_node/node/b_simple_node_a.cpp
     bp_system/example_node/node/b_simple_node_b.cpp
-    user_node/node/basic_imu_node.cpp
+    #user_node/node/basic_imu_node.cpp
+    user_node/node/basic_sub_servo.cpp
+    user_node/node/basic_pub_control.cpp
 )
 
 if(WIN32)

@@ -7,9 +7,12 @@
 // List
 #include "b_system/b_hub_cmd/b_hub_cmd_list.hpp"
 
-#include "../data_struct/state/st_imu_state.hpp"
+#include "../data_struct/state/st_servo_state.hpp"
+#include "../data_struct/cmd/st_servo_cmd.hpp"
 
-class BasicImuNode : public b_node
+#include <random>
+
+class BasicPubControl : public b_node
 {
 private:
     /* node_state loop process */
@@ -44,21 +47,24 @@ private:
     void _configure() override;
     void _set_config(nlohmann::json json_data) override;
     void _set_state() override;
-    //void cmd_executor();
+    void cmd_executor();
 
     /* user data */
-    st_imu_state* imu_state_;
+    st_servo_state* state_;
     bool is_display_state_;
+    bool is_get_rel_shared_ptr;
+    int sub_servo_id;
 
     /* user function */
-    void get_state();
-    void display_state();
-    void user_cmd_executor();
+    void _update_servo_state(int add_value);
+    void _reset_encoder_count();
+    void _display_servo_state();
+
     //void set_param(st_imu_param_cmd param);
 public:
-    BasicImuNode(/* args */);
-    ~BasicImuNode();
+    BasicPubControl(/* args */);
+    ~BasicPubControl();
     std::shared_ptr<b_node> Clone() const override{
-        return std::make_shared<BasicImuNode>(*this);
+        return std::make_shared<BasicPubControl>(*this);
     }
-};  // class simple_node_a
+};  // class basic_pub_control
