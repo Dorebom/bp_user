@@ -17,6 +17,8 @@ include_directories(bp_system/example_node)
 include_directories(bp_system/bp_system)
 include_directories(bp_system)
 
+include_directories(user_node/extra)
+
 add_executable(${CMAKE_PROJECT_NAME}
     main.cpp
     bp_system/bp_system/_common/node.cpp
@@ -30,6 +32,8 @@ add_executable(${CMAKE_PROJECT_NAME}
     bp_system/example_node/node/b_simple_node_b.cpp
     user_node/node/basic_imu_node.cpp
     user_node/common/comm/Serial/SerialManager.cpp
+    user_node/extra/witmotion/serial.cpp
+    user_node/extra/witmotion/wit_c_sdk.cpp
 )
 
 if(WIN32)

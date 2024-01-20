@@ -23,8 +23,8 @@ int main()
 
     BasicImuNode imu_node;
 
-    hub_.store_node(node_a, "b_simple_node_a");
-    hub_.store_node(node_b, "b_simple_node_b");
+    //hub_.store_node(node_a, "b_simple_node_a");
+    //hub_.store_node(node_b, "b_simple_node_b");
 
     hub_.store_node(imu_node, "basic_imu_node");
 
@@ -40,7 +40,7 @@ int main()
     {
         std::this_thread::sleep_for(std::chrono::seconds(3));
         hub_.ChangeStable();
-        std::this_thread::sleep_for(std::chrono::seconds(3));
+        std::this_thread::sleep_for(std::chrono::seconds(10));
         hub_.End();
         std::this_thread::sleep_for(std::chrono::seconds(1));
         break;

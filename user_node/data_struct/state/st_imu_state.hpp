@@ -15,9 +15,6 @@ struct st_imu_state
     double angular_velocity[3];
     double orientation[3];
     double mag[3];
-    double temperature;
-    double pressure;
-    double altitude;
 
     st_imu_state(/* args */)
     {

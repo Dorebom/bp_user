@@ -10,18 +10,26 @@
 #include "../data_struct/state/st_imu_state.hpp"
 #include "../data_struct/cmd/st_imu_cmd.hpp"
 
+#include "witmotion/serial.hpp"
+#include "witmotion/wit_c_sdk.hpp"
+#include "witmotion/REG.h"
+#include <stdint.h>
+
 #include "../common/comm/Serial/SerialManager.hpp"
 
-struct st_send2imu_data
-{
-    /* data */
-    double timestamp;
-    int cmd_type;
-    int cmd_periodic_time;  // msec
-    float cmd_gein;
-    int cmd_data_mode;
-    uint32_t crc_result;
-};
+/*
+https://wit-motion.gitbook.io/witmotion-sdk/wit-standard-protocol/sdk/linux-c_sdk_normal-onboard-serial-port-and-3-in-1-serial-port-usage-tutorial
+*/
+#define ACC_UPDATE		0x01
+#define GYRO_UPDATE		0x02
+#define ANGLE_UPDATE	0x04
+#define MAG_UPDATE		0x08
+#define READ_UPDATE		0x80
+
+static volatile char s_cDataUpdate = 0;
+static int fd, s_iCurBaud;
+
+const int c_uiBaud[] = {2400 , 4800 , 9600 , 19200 , 38400 , 57600 , 115200 , 230400 , 460800 , 921600};
 
 class BasicImuNode : public b_node
 {
@@ -66,15 +74,15 @@ private:
     SerialManager serial_manager_;
     std::string portName;
     unsigned int baudRate;
-    unsigned int periodic_time;
-    float gein;
-    st_send2imu_data send2imu_data_;
 
     /* user function */
     void get_state();
     void display_state();
     void user_cmd_executor();
     void set_param(st_imu_param_cmd param);
+    static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum);
+    static void AutoScanSensor(char* dev);
+    static void Delayms(uint16_t ucMs);
 public:
     BasicImuNode(/* args */);
     ~BasicImuNode();
