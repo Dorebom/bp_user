@@ -2,10 +2,7 @@
 
 enum class imu_cmd_list : int
 {
-    COMM_START = 0,
-    COMM_END,
-    SET_PARAM,
-    DISPLAY_STATE,
+    DISPLAY_STATE = 0,
     CHANGE_SM_READY,
     CHANGE_SM_STABLE,
     CHANGE_SM_REPAIR,
@@ -18,6 +15,5 @@ enum class imu_cmd_list : int
 struct st_imu_param_cmd
 {
     /* data */
-    double periodic_time;   // msec
-    double gein;            // [-]
+    imu_cmd_list cmd_type;
 };

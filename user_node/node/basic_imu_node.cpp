@@ -10,7 +10,7 @@ BasicImuNode::BasicImuNode(/* args */)
     node_state_machine_ = node_state_machine::UNCONFIGURED;
     cmd_node_state_machine_ = node_state_machine::UNCONFIGURED;
 
-    is_display_state_ = true;
+    is_display_state_ = false;
     s_cDataUpdate = 0;
     s_iCurBaud = 9600;
 }
@@ -190,15 +190,6 @@ void BasicImuNode::user_cmd_executor()
         print_log("[cmd] " + std::to_string(cmd.cmd_code.cmd_type));
         switch ((imu_cmd_list)cmd.cmd_code.cmd_type)
         {
-        case imu_cmd_list::COMM_START:
-            print_log("[cmd] COMM_START");
-            break;
-        case imu_cmd_list::COMM_END:
-            print_log("[cmd] COMM_END");
-            break;
-        case imu_cmd_list::SET_PARAM:
-            print_log("[cmd] SET_PARAM");
-            break;
         case imu_cmd_list::DISPLAY_STATE:
             print_log("[cmd] DISPLAY_STATE");
             if (is_display_state_)
