@@ -31,6 +31,7 @@ add_executable(${CMAKE_PROJECT_NAME}
     #user_node/node/basic_imu_node.cpp
     user_node/node/basic_sub_servo.cpp
     user_node/node/basic_pub_control.cpp
+    user_node/node/simple_node.cpp
 )
 
 if(WIN32)

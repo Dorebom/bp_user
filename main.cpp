@@ -8,6 +8,7 @@
 #include "example_node/node/b_simple_node_b.hpp"
 #include "user_node/node/basic_sub_servo.hpp"
 #include "user_node/node/basic_pub_control.hpp"
+#include "user_node/node/simple_node.hpp"
 
 int main()
 {
@@ -18,22 +19,29 @@ int main()
 
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
-    b_simple_node_a node_a;
-    b_simple_node_b node_b;
+    simple_node simple_node;
 
-    BasicSubServo servo_node;
-    BasicPubControl pub_node;
+    //b_simple_node_a node_a;
+    //b_simple_node_b node_b;
 
-    hub_.store_node(node_a, "b_simple_node_a");
-    hub_.store_node(node_b, "b_simple_node_b");
+    //BasicSubServo servo_node;
+    //BasicPubControl pub_node;
 
-    hub_.store_node(servo_node, "basic_sub_servo");
-    hub_.store_node(pub_node, "basic_pub_control");
+    //hub_.store_node(node_a, "b_simple_node_a");
+    //hub_.store_node(node_b, "b_simple_node_b");
+
+    //hub_.store_node(servo_node, "basic_sub_servo");
+    //hub_.store_node(pub_node, "basic_pub_control");
+
+    hub_.store_node(simple_node, "simple_node");
 
     hub_.show_stored_node();
 
     //hub_.exec_node("basic_sub_servo", "sub_servo.json", "../user_node/config/");
-    hub_.exec_node("basic_pub_control", "pub_control.json", "../user_node/config/");
+    //hub_.exec_node("basic_pub_control", "pub_control.json", "../user_node/config/");
+
+    hub_.exec_node("simple_node", "simple_node_a.json", "../user_node/config/");
+
 
     while(1)
     {
